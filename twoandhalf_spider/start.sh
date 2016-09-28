@@ -1,0 +1,1 @@
+scrapy crawl weibo --logfile weibo.log -L INFO -o weibo.jl -s JOBDIR=crawls/weibo
