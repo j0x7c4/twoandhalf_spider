@@ -52,11 +52,9 @@ DOWNLOAD_DELAY = 2
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-DOWNLOADER_MIDDLEWARES = {
-   #'twoandhalf_spider.middlewares.MyCustomDownloaderMiddleware': 543,
-    "twoandhalf_spider.middleware.UserAgentMiddleware": 401,
-    "twoandhalf_spider.middleware.CookiesMiddleware": 402,
-}
+# DOWNLOADER_MIDDLEWARES = {
+#      "twoandhalf_spider.middleware.MobileUserAgentMiddleware": 400,
+# }
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
@@ -68,7 +66,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     #'twoandhalf_spider.pipelines.SomePipeline': 300,
-    'twoandhalf_spider.pipelines.MongoDBPipleline': 300,
+    #'twoandhalf_spider.pipelines.MongoDBPipleline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

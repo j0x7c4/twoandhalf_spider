@@ -6,7 +6,8 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import pymongo
-from items import ProfileItem, PostItem, FollowItem, FanItem
+
+from twoandhalf_spider.items.weibo_items import ProfileItem, PostItem, FollowItem, FanItem
 
 
 class TwoandhalfSpiderPipeline(object):

@@ -1,10 +1,12 @@
 # encoding=utf-8
-import re
 import datetime
-from scrapy.spider import CrawlSpider
-from scrapy.selector import Selector
+import re
+
 from scrapy.http import Request
-from twoandhalf_spider.items import ProfileItem, PostItem, FollowItem, FanItem
+from scrapy.selector import Selector
+from scrapy.spiders import CrawlSpider
+
+from twoandhalf_spider.items.weibo_items import ProfileItem, PostItem, FollowItem, FanItem
 
 
 class Spider(CrawlSpider):
@@ -16,6 +18,12 @@ class Spider(CrawlSpider):
         # 1756807885, 3378940452, 5762793904, 1885080105, 5778836010, 5722737202, 3105589817, 5882481217, 5831264835,
         # 2717354573, 3637185102, 1934363217, 5336500817, 1431308884, 5818747476, 5073111647, 5398825573, 2501511785,
     ]
+    custom_settings = {
+        "DOWNLOADER_MIDDLEWARES": {
+            "twoandhalf_spider.middleware.MobileUserAgentMiddleware": 401,
+            "twoandhalf_spider.middleware.WeiboCookiesMiddleware": 402,
+        }
+    }
 
     p_url_follows = "http://weibo.cn/%s/follow"
     p_url_fans = "http://weibo.cn/%s/fans"

@@ -3,7 +3,7 @@ import json
 import base64
 import requests
 
-import account
+import twoandhalf_spider.account
 
 def getCookies(weibo):
     """ 获取Cookies """
@@ -36,7 +36,7 @@ def getCookies(weibo):
         jsonStr = r.content.decode('gbk')
         info = json.loads(jsonStr)
         if info["retcode"] == "0":
-            print "Get Cookie Success!( Account:%s )" % account
+            print "Get Cookie Success!( Account:%s )" % twoandhalf_spider.account
             cookie = session.cookies.get_dict()
             cookies.append(cookie)
         else:
@@ -44,5 +44,5 @@ def getCookies(weibo):
     return cookies
 
 
-cookies = getCookies(account.myWeiBo)
+cookies = getCookies(twoandhalf_spider.account.myWeiBo)
 print "Get Cookies Finish!( Num:%d)" % len(cookies)
