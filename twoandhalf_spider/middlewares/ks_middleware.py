@@ -19,6 +19,4 @@ class KsCookiesMiddleware(object):
 
     def process_request(self, request, spider):
         cookie = random.choice(cookies)
-        print cookie
         request.cookies = cookie
-        print request
