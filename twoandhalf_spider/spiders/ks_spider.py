@@ -28,8 +28,8 @@ class Spider(CrawlSpider):
         """
         parse project list
         """
+        print "********parse_list"
         selector = Selector(res)
-        print selector.xpath('//a/text()').extract_first()
         project_urls = selector.xpath('//h6[@class="project-card-content"]/a/@href').extract()
         for project_url in project_urls:
             yield Request(url=project_url, callback=self.parse_project)

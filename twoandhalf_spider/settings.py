@@ -55,6 +55,7 @@ DOWNLOAD_DELAY = 2
 DOWNLOADER_MIDDLEWARES = {
     "twoandhalf_spider.middlewares.ks_middleware.PcUserAgentMiddleware": 401,
     "twoandhalf_spider.middlewares.ks_middleware.KsCookiesMiddleware": 402,
+    "twoandhalf_spider.middlewares.ks_middleware.BeforeStartDownloadMiddleware": 403,
 }
 
 # Enable or disable extensions

@@ -1,6 +1,6 @@
 # encoding=utf-8
 import random
-
+import json
 from twoandhalf_spider.cookie_manager.ks_cookies import cookies
 from twoandhalf_spider.user_agents import pc_agents
 
@@ -20,3 +20,10 @@ class KsCookiesMiddleware(object):
     def process_request(self, request, spider):
         cookie = random.choice(cookies)
         request.cookies = cookie
+
+class BeforeStartDownloadMiddleware(object):
+
+    def process_request(self, request, spider):
+        print "before start to download"
+        print request.headers
+        print request.cookies
