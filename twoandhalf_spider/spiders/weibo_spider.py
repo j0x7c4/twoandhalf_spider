@@ -20,8 +20,8 @@ class Spider(CrawlSpider):
     ]
     custom_settings = {
         "DOWNLOADER_MIDDLEWARES": {
-            "twoandhalf_spider.middleware.MobileUserAgentMiddleware": 401,
-            "twoandhalf_spider.middleware.WeiboCookiesMiddleware": 402,
+            "twoandhalf_spider.middlewares.weibo_middleware.MobileUserAgentMiddleware": 401,
+            "twoandhalf_spider.middlewares.weibo_middleware.WeiboCookiesMiddleware": 402,
         }
     }
 

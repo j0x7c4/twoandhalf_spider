@@ -16,14 +16,7 @@ class Spider(CrawlSpider):
     name = "ks"
     category_id_list = [1]
     page_range = range(1, 2)
-    custom_settings = {
-        "DOWNLOADER_MIDDLEWARES": {
-            "twoandhalf_spider.middleware.MobileUserAgentMiddleware": 401,
-            "twoandhalf_spider.middleware.KsCookiesMiddleware": 402,
-        }
-    }
     p_url_list = "https://www.kickstarter.com/discover/advanced?category_id=%d&sort=popularity&page=%d"
-    p_url_projects = "https://www.kickstarter.com/projects/%s"
 
     def start_requests(self):
         for category_id in self.category_id_list:

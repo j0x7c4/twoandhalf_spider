@@ -91,3 +91,7 @@ ENV/
 
 .idea
 twoandhalf_spider/account.py
+
+# scrapy
+*.jl
+tmp/
