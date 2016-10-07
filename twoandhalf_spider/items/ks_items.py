@@ -19,3 +19,4 @@ class ProjectItem(Item):
     creator = Field()
     backers_count = Field()
     pledged = Field()
+    url = Field()
