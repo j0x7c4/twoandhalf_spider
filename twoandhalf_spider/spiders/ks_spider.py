@@ -45,12 +45,13 @@ class Spider(CrawlSpider):
         project_url = res.url
         selector = Selector(res)
         backers_count = selector.xpath('//div[@id="backers_count"]/text()').extract_first()
-        pledged = selector.xpath('//div[@id=""]/div/text()').extract_first()
-        project_title = selector.xpath('//div[@class="NS_projects__header center"]//a/text()').extract_first()
-        project_content = selector.xpath('//div[@class="NS_projects__description_section"]//div[@class="col col-8 description-container"]//text()').extract()
-        project_content = "".join(project_content)
+        pledged = selector.xpath('//div[contains(@class,"stat-item")]//div[@class="js-pledged"]/text()').extract_first()
+        project_title = selector.xpath('//div[contains(@class, "NS_projects__header")]//a/text()').extract_first()
+        project_content = selector.xpath('//div[@class="NS_projects__description_section"]//div[contains(@class, "description-container")]//text()').extract()
+        project_content = "".join([x.strip() for x in project_content])
         creator_name = selector.xpath('//div[@class="NS_projects__creator"]//h5/a/text()').extract_first()
-        project_location_category = selector.xpath('//div[@class="NS_projects__category_location"]/a/text()').extract()
+        project_location_category = selector.xpath('//div[contains(@class, "NS_projects__category_location")]/a/text()').extract()
+        print project_location_category
         project_location, project_tag = "", ""
         if project_location_category and len(project_location_category)>0:
             project_location = project_location_category[0]
@@ -58,12 +59,12 @@ class Spider(CrawlSpider):
             project_tag = project_location_category[1]
 
         item = ProjectItem()
-        item["name"] = project_title
-        item["content"] = project_content
-        item["creator"] = creator_name
-        item["location"] = project_location
-        item["category_tag"] = project_tag
-        item["backers_count"] = backers_count
-        item["pledged"] = pledged
+        item["name"] = project_title.strip()
+        item["content"] = project_content.strip()
+        item["creator"] = creator_name.strip()
+        item["location"] = project_location.strip()
+        item["category_tag"] = project_tag.strip()
+        item["backers_count"] = backers_count.strip()
+        item["pledged"] = pledged.strip()
         item["url"] = project_url
         yield item
