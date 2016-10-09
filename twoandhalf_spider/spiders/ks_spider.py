@@ -26,11 +26,8 @@ class Spider(CrawlSpider):
         """
         parse project list
         """
-        print "********parse_list"
-        #print res.body
         selector = Selector(res)
         project_urls = selector.xpath('//div[@class="project-card-content"]//a/@href').extract()
-        #print project_urls
         for project_url in project_urls:
             project_url = self.host + project_url
             yield Request(url=project_url, callback=self.parse_project)
@@ -41,7 +38,6 @@ class Spider(CrawlSpider):
         :param res:
         :return:
         """
-        #print res.body
         project_url = res.url
         selector = Selector(res)
         backers_count = selector.xpath('//div[@id="backers_count"]/text()').extract_first()
@@ -51,7 +47,6 @@ class Spider(CrawlSpider):
         project_content = "".join([x.strip() for x in project_content])
         creator_name = selector.xpath('//div[@class="NS_projects__creator"]//h5/a/text()').extract_first()
         project_location_category = selector.xpath('//div[contains(@class, "NS_projects__category_location")]/a/text()').extract()
-        print project_location_category
         project_location, project_tag = "", ""
         if project_location_category and len(project_location_category)>0:
             project_location = project_location_category[0]
