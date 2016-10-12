@@ -1,7 +1,7 @@
 # encoding=utf-8
 import datetime
 import re
-
+import time
 from scrapy.http import Request
 from scrapy.selector import Selector
 from scrapy.spiders import CrawlSpider
@@ -33,6 +33,7 @@ class Spider(CrawlSpider):
         """
         parse category
         """
+        d = datetime.datetime.fromtimestamp(time.time())
         selector = Selector(res)
         bread_crumb = selector.xpath('//div[@id="breadCrumb"]/div[@id="widget_breadcrumb"]/ul/a/text()').extract()
         bread_crumb.append(selector.xpath('//div[@id="breadCrumb"]/div[@id="widget_breadcrumb"]/ul/span/text()').extract_first())
@@ -43,6 +44,7 @@ class Spider(CrawlSpider):
         item = CategoryItem()
         item['name'] = category
         item['parent'] = parent_category
+        item['ts'] = d.strftime("%Y-%m-%d %H:%M:%S")
         yield item
         for url in selector.xpath('//div[@id="main"]//a/@href').extract():
             if re.search("/product/([0-9a-zA-Z]|\-)+", url):
@@ -51,6 +53,7 @@ class Spider(CrawlSpider):
 
     def parse_product(self, res):
         """parse product"""
+        d = datetime.datetime.fromtimestamp(time.time())
         selector = Selector(res)
         bread_crumb = selector.xpath('//div[@id="breadCrumb"]/div[@id="widget_breadcrumb"]/ul/a/text()').extract()
         bread_crumb.append(
@@ -78,4 +81,5 @@ class Spider(CrawlSpider):
         item['img_lg_url'] = img_lg
         item['info'] = info
         item['url'] = res.url
+        item['ts'] = d.strftime("%Y-%m-%d %H:%M:%S")
         yield item

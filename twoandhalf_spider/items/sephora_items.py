@@ -12,6 +12,7 @@ class CategoryItem(Item):
     """ category """
     name = Field()
     parent = Field()
+    ts = Field()
 
 
 class ProductItem(Item):
@@ -26,3 +27,4 @@ class ProductItem(Item):
     brand_img_url = Field()
     info = Field()
     url = Field()
+    ts = Field()
