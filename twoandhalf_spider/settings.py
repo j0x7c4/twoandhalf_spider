@@ -53,8 +53,8 @@ DOWNLOAD_DELAY = 2
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    "twoandhalf_spider.middlewares.ks_middleware.PcUserAgentMiddleware": 401,
-    "twoandhalf_spider.middlewares.ks_middleware.KsCookiesMiddleware": 402,
+    "twoandhalf_spider.middlewares.sephora_middleware.PcUserAgentMiddleware": 401,
+    "twoandhalf_spider.middlewares.sephora_middleware.CookiesMiddleware": 402,
     #"twoandhalf_spider.middlewares.ks_middleware.BeforeStartDownloadMiddleware": 403,
 }
 

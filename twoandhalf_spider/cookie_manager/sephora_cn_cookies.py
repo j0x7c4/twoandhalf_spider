@@ -2,12 +2,13 @@
 import json
 import requests
 import logging
-logger = logging.getLogger('ks_cookies')
+
+logger = logging.getLogger('sephora_cn_cookies')
 
 def getCookies():
     """ 获取Cookies """
     cookies = []
-    url = r'https://www.kickstarter.com/'
+    url = r'http://www.sephora.cn/'
     headers = {}
     headers["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
     headers["Accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"

@@ -2,6 +2,8 @@
 import json
 import base64
 import requests
+import logging
+logger = logging.getLogger('weibo_cookies')
 
 import twoandhalf_spider.account
 
@@ -36,13 +38,13 @@ def getCookies(weibo):
         jsonStr = r.content.decode('gbk')
         info = json.loads(jsonStr)
         if info["retcode"] == "0":
-            print "Get Cookie Success!( Account:%s )" % twoandhalf_spider.account
+            logger.info("Get Cookie Success!( Account:%s )" % twoandhalf_spider.account)
             cookie = session.cookies.get_dict()
             cookies.append(cookie)
         else:
-            print "Failed!( Reason:%s )" % info['reason']
+            logger.error("Failed!( Reason:%s )" % info['reason'])
     return cookies
 
 
 cookies = getCookies(twoandhalf_spider.account.myWeiBo)
-print "Get Cookies Finish!( Num:%d)" % len(cookies)
+logger.info("Get Cookies Finish!( Num:%d)" % len(cookies))
