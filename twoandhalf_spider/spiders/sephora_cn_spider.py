@@ -67,7 +67,7 @@ class Spider(CrawlSpider):
 
         brand_img_url =selector.xpath('//div[@id="productDetail_up"]//a[@class="proBrandImg"]/img/@src').extract_first()
         en_name = selector.xpath('//div[@id="productDetail_up"]//p[@id="enName"]/text()').extract_first().strip()
-        price = selector.xpath('//div[@id="productDetail_up"]//div[@class="promotion-container"]/p[@class="proPrice"]/span/text()').extract_first()
+        price = selector.xpath('//div[@id="productDetail_up"]//div[@class="promotion-container"]/p[@class="proPrice"]/span/text()').extract()[-1]
         info = selector.xpath('//div[@id="skuInfo"]/li/p/text()').extract()
         img_sm = selector.xpath('//div[@class="skuImgItems"]//img/@src').extract()
         img_lg = [x.replace("50x50", "350x350") for x in img_sm]
