@@ -25,7 +25,6 @@ class Spider(CrawlSpider):
         for url in urls:
             if re.search("/category/([0-9a-zA-Z]|\-)+", url):
                 yield Request(url=url, callback=self.parse_category)
-                pass
             elif re.search("/product/([0-9a-zA-Z]|\-)+", url):
                 yield Request(url=url, callback=self.parse_product)
 
@@ -33,23 +32,26 @@ class Spider(CrawlSpider):
         """
         parse category
         """
-        d = datetime.datetime.fromtimestamp(time.time())
-        selector = Selector(res)
-        bread_crumb = selector.xpath('//div[@id="breadCrumb"]/div[@id="widget_breadcrumb"]/ul/a/text()').extract()
-        bread_crumb.append(selector.xpath('//div[@id="breadCrumb"]/div[@id="widget_breadcrumb"]/ul/span/text()').extract_first())
-        parent_category = None
-        category = bread_crumb[-1]
-        if len(bread_crumb)>2:
-            parent_category = bread_crumb[-2]
-        item = CategoryItem()
-        item['name'] = category
-        item['parent'] = parent_category
-        item['ts'] = d.strftime("%Y-%m-%d %H:%M:%S")
-        yield item
+        if not re.search("/page/[0-9]+", res.url):
+            d = datetime.datetime.fromtimestamp(time.time())
+            selector = Selector(res)
+            bread_crumb = selector.xpath('//div[@id="breadCrumb"]/div[@id="widget_breadcrumb"]/ul/a/text()').extract()
+            bread_crumb.append(selector.xpath('//div[@id="breadCrumb"]/div[@id="widget_breadcrumb"]/ul/span/text()').extract_first())
+            parent_category = None
+            category = bread_crumb[-1]
+            if len(bread_crumb)>2:
+                parent_category = bread_crumb[-2]
+            item = CategoryItem()
+            item['name'] = category
+            item['parent'] = parent_category
+            item['ts'] = d.strftime("%Y-%m-%d %H:%M:%S")
+            yield item
         for url in selector.xpath('//div[@id="main"]//a/@href').extract():
             if re.search("/product/([0-9a-zA-Z]|\-)+", url):
                 yield Request(url=url, callback=self.parse_product)
-
+        page_list = selector.xpath('//div[@class="pageList"]/span/a/@href').extract()
+        if page_list and len(page_list) > 0:
+            yield Request(url=page_list[-1], callback=self.parse_category)
 
     def parse_product(self, res):
         """parse product"""
