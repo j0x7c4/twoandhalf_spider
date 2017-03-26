@@ -24,7 +24,7 @@ class MysqlHelper(object):
 
     def batch_insert(self, sqls):
         for sql in sqls:
-            print sql
+            #print sql
             try:
                 self.cursor.execute(sql)
             except Exception, e:
@@ -39,14 +39,16 @@ class MysqlHelper(object):
     def create_temp_table(self, table, schema):
         sql = """
         CREATE TABLE IF NOT EXISTS %s (%s) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-        """ % (table, ",".join([k+" "+v for (k, v) in schema.items()]))
+        """ % (table, ",".join([k+" "+v for (k, v) in schema]))
+        print >> sys.stderr, sql
         self.cursor.execute(sql)
 
     def select(self, table, fields):
         sql = """
         SELECT %s FROM %s
-        """ % (table, ",".join(fields))
+        """ % (",".join(fields), table)
+        print >> sys.stderr, sql
         self.cursor.execute(sql)
-        records = [record for record in self.cursor]
+        for record in self.cursor:
+            yield record
         self.cursor.close()
-        return records

@@ -5,7 +5,7 @@ from MysqlHelper import MysqlHelper
 class Json2Mysql(MysqlHelper):
 
     def __init__(self, host, user, passwd, db):
-        super(MysqlHelper, self).__init__(host, user, passwd, db)
+        super(Json2Mysql, self).__init__(host=host, user=user, passwd=passwd, db=db)
 
     def update_many(self, records):
         sqls = []

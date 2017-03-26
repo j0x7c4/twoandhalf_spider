@@ -12,7 +12,7 @@ table_post = "crawler_xiabb.weibo_post"
 
 class WeiboJsonFile2Mysql(Json2Mysql):
     def __init__(self, host, user,passwd, db, batch_size):
-        super(Json2Mysql, self).__init__(host, user, passwd, db)
+        super(WeiboJsonFile2Mysql, self).__init__(host, user, passwd, db)
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.INFO)
         self.batch_size = batch_size
