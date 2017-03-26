@@ -3,12 +3,8 @@ import sys
 import json
 from Json2Mysql import Json2Mysql
 import logging
+from twoandhalf_spider.conf.mysql import host, user, passwd, db
 
-
-host = "127.0.0.1"
-user = "root"
-passwd = "Root@1234"
-db = "crawler_xiabb"
 batch_size = 1000
 table_profile = "crawler_xiabb.weibo_profile"
 table_post = "crawler_xiabb.weibo_post"

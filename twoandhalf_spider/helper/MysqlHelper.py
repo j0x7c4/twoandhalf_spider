@@ -35,3 +35,18 @@ class MysqlHelper(object):
             self.connection.commit()
         except Exception, e:
             print >> sys.stderr, e
+
+    def create_temp_table(self, table, schema):
+        sql = """
+        CREATE TABLE IF NOT EXISTS %s (%s) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+        """ % (table, ",".join([k+" "+v for (k, v) in schema.items()]))
+        self.cursor.execute(sql)
+
+    def select(self, table, fields):
+        sql = """
+        SELECT %s FROM %s
+        """ % (table, ",".join(fields))
+        self.cursor.execute(sql)
+        records = [record for record in self.cursor]
+        self.cursor.close()
+        return records
