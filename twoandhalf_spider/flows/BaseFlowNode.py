@@ -2,32 +2,41 @@
 from twoandhalf_spider.helper.Json2Mysql import Json2Mysql
 import sys
 
+
 class BaseFlowNode(object):
-    def __init__(self, host, user, passwd, db, src=None, dst=None):
+    def __init__(self, db_conf, src=None, dst=None):
         if src:
-            self.src_table = src['table']
-            self.src_fields = src['fields']
-            self.src_data_manager = Json2Mysql(host=host, user=user, passwd=passwd, db=db)
+            self.src_data_managers = [(it['table']
+                                       , it['fields']
+                                       ,
+                                       Json2Mysql(host=db_conf['host'], user=db_conf['user'], passwd=db_conf['passwd'],
+                                                  db=db_conf['db'])) for it in src]
         else:
-            self.src_data_manager = None
+            self.src_data_managers = None
         if dst:
-            self.dst_table = dst['table']
-            self.dst_schema = dst['schema']
-            self.dst_data_manager = Json2Mysql(host=host, user=user, passwd=passwd, db=db)
+            self.dst_data_managers = [(it['table']
+                                       , it['schema']
+                                       ,
+                                       Json2Mysql(host=db_conf['host'], user=db_conf['user'], passwd=db_conf['passwd'],
+                                                  db=db_conf['db'])) for it in dst]
         else:
-            self.dst_data_manager = None
+            self.dst_data_managers = None
 
     def read(self):
-        self.src_data_manager.connect()
-        for record in self.src_data_manager.select(self.src_table, self.src_fields):
-            yield dict(zip(self.src_fields, record))
-        self.src_data_manager.disconnect()
+        for i, data_manager in enumerate(self.src_data_managers):
+            (table, fields, connector) = data_manager
+            connector.connect()
+            for record in connector.select(table, fields):
+                yield (i, dict(zip(fields, record)))
+            connector.disconnect()
 
     def save(self, records):
-        self.dst_data_manager.connect()
-        self.dst_data_manager.create_temp_table(self.dst_table, self.dst_schema)
-        self.dst_data_manager.update_many([(self.dst_table, [], record) for record in records])
-        self.dst_data_manager.disconnect()
+        for i, data_manager in enumerate(self.dst_data_managers):
+            (table, schema, connector) = data_manager
+            connector.connect()
+            connector.create_temp_table(table, schema)
+            connector.update_many([(table, [], record) for record in records[i]])
+            connector.disconnect()
 
     def action(self):
         pass
