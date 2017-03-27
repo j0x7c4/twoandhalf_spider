@@ -48,8 +48,9 @@ class WordTfidfFlowNode(BaseFlowNode):
     def action(self):
         self.calc_feature()
         word_index = [{"id": i, "word": word} for (i, word) in enumerate(self.word_index)]
-        rows, cols = self.tfs.nonzero()
-        word_tfidf = [{"doc_id": self.doc_index[row], "word": self.word_index[col], "tfidf":self.tfs[row, col]} for row, col in zip(rows, cols)]
+        cx = self.tfs.tocoo()
+        word_tfidf = [{"doc_id": self.doc_index[row], "word": self.word_index[col], "tfidf":value}
+                      for (row, col, value) in zip(cx.row, cx.col, cx.data)]
         self.save([word_tfidf, word_index])
 
 if __name__ == "__main__":
