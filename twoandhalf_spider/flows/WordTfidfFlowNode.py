@@ -20,6 +20,7 @@ class WordTfidfFlowNode(BaseFlowNode):
         self.tfs = None
         self.word_index = None
         self.doc_index = None
+        self.word_df = None
 
     def stem_tokens(self, tokens):
         stemmed = []
@@ -44,6 +45,10 @@ class WordTfidfFlowNode(BaseFlowNode):
         self.tfidf = TfidfVectorizer(tokenizer=self.tokenize)
         self.tfs = self.tfidf.fit_transform(self.corpus)
         self.word_index = self.tfidf.get_feature_names()
+        self.word_df = [0 for i in range(len(self.word_index))]
+        cx = self.tfs.tocoo()
+        for (row, col, value) in zip(cx.row, cx.col, cx.data):
+            self.word_df[col] += 1
 
     def action(self):
         self.calc_feature()
@@ -51,7 +56,8 @@ class WordTfidfFlowNode(BaseFlowNode):
         cx = self.tfs.tocoo()
         word_tfidf = [{"doc_id": self.doc_index[row], "word": self.word_index[col], "tfidf":value}
                       for (row, col, value) in zip(cx.row, cx.col, cx.data)]
-        self.save([word_tfidf, word_index])
+        word_df = [{"id":i, "word": self.word_index[i], "df": self.word_df[i]} for i in range(len(self.word_df))]
+        self.save([word_tfidf, word_df, word_index])
 
 if __name__ == "__main__":
     src = [{
@@ -70,6 +76,15 @@ if __name__ == "__main__":
             ("tfidf", "double")
         ]
     }, {
+        "table": "weibo_word_df",
+        "fields": ["id", "word", "df"],
+        "schema": [
+            ("id", "int"),
+            ("word", "varchar(45)"),
+            ("df", "double")
+        ]
+    },
+        {
         "table": "weibo_word_index",
         "fields": ["id", "word"],
         "schema": [
