@@ -46,6 +46,7 @@ class MysqlHelper(object):
     def select(self, table, fields):
         sql = """
         SELECT %s FROM %s
+        LIMIT 1000
         """ % (",".join(fields), table)
         print >> sys.stderr, sql
         self.cursor.execute(sql)

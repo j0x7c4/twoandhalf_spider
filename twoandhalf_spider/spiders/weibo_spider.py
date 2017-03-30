@@ -46,8 +46,8 @@ class Spider(CrawlSpider):
             url_fans = self.p_url_fans % id
             url_posts = self.p_url_posts % id
             url_profile0 = self.p_url_profile0 % id
-            yield Request(url=url_follows, meta={"item": follow_items, "result": follows}, callback=self.parse3)  # 去爬关注人
-            yield Request(url=url_fans, meta={"item": fan_items, "result": fans}, callback=self.parse3)  # 去爬粉丝
+            #yield Request(url=url_follows, meta={"item": follow_items, "result": follows}, callback=self.parse3)  # 去爬关注人
+            #yield Request(url=url_fans, meta={"item": fan_items, "result": fans}, callback=self.parse3)  # 去爬粉丝
             yield Request(url=url_profile0, meta={"id": id}, callback=self.parse0)  # 去爬个人信息
             yield Request(url=url_posts, meta={"id": id}, callback=self.parse2)  # 去爬微博
 
@@ -179,7 +179,7 @@ class Spider(CrawlSpider):
                 url_profile0 = self.p_url_profile0 % id
                 yield Request(url=url_follows, meta={"item": follow_items, "result": follows},
                               callback=self.parse3)  # 去爬关注人
-                #yield Request(url=url_fans, meta={"item": fan_items, "result": fans}, callback=self.parse3)  # 去爬粉丝
+                yield Request(url=url_fans, meta={"item": fan_items, "result": fans}, callback=self.parse3)  # 去爬粉丝
                 yield Request(url=url_profile0, meta={"id": id}, callback=self.parse0)  # 去爬个人信息
                 yield Request(url=url_posts, meta={"id": id}, callback=self.parse2)  # 去爬微博
 

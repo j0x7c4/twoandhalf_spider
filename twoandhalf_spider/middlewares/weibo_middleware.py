@@ -1,9 +1,7 @@
 # encoding=utf-8
-import random
-
-from twoandhalf_spider.cookie_manager.weibo_cookies import cookies
+from twoandhalf_spider.cookie_manager.weibo_cookies import WeiboCookieManager
 from twoandhalf_spider.user_agents import mobile_agents
-
+import random
 class MobileUserAgentMiddleware(object):
     """ 换User-Agent """
 
@@ -19,7 +17,8 @@ class MobileUserAgentMiddleware(object):
 
 class WeiboCookiesMiddleware(object):
     """ 换Cookie """
+    def __init__(self):
+        self.cookieManager = WeiboCookieManager()
 
     def process_request(self, request, spider):
-        cookie = random.choice(cookies)
-        request.cookies = cookie
+        request.cookies = self.cookieManager.pick()

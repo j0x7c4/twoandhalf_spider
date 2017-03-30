@@ -72,7 +72,7 @@ if __name__ == "__main__":
         "fields": ["doc_id", "word", "tfidf"],
         "schema": [
             ("doc_id", "varchar(45)"),
-            ("word", "varchar(45)"),
+            ("word", "varchar(255)"),
             ("tfidf", "double")
         ]
     }, {
@@ -80,7 +80,7 @@ if __name__ == "__main__":
         "fields": ["id", "word", "df"],
         "schema": [
             ("id", "int"),
-            ("word", "varchar(45)"),
+            ("word", "varchar(255)"),
             ("df", "double")
         ]
     },
@@ -89,7 +89,7 @@ if __name__ == "__main__":
         "fields": ["id", "word"],
         "schema": [
             ("id", "int"),
-            ("word", "varchar(45)")
+            ("word", "varchar(255)")
         ]
     }
     ]
