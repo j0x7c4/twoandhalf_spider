@@ -35,14 +35,14 @@ class WeiboCookieManager(BaseCookieManager):
             sys.exit(1)
 
     def pick(self):
-        k,v = random.choice(self.cookies.items())
-        return v
+        k, v = random.choice(self.cookies.items())
+        return k, v
 
     def encode_key(self, account, password):
-        return account+"\t"+password
+        return account+"--"+password
 
     def decode_key(self, key):
-        return (key.split("\t")[0], key.split("\t")[1])
+        return (key.split("--")[0], key.split("--")[1])
 
     def get_cookie(self, account, password):
         """ 获取一个账号的Cookie """
